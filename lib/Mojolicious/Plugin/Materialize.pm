@@ -38,11 +38,12 @@ Register plugin in L<Mojolicious> application.
 
 =cut
 
-sub register 
+sub register
 {
     my ($self, $app) = @_;
-    
-    $app->helper(MD_button     => sub { md_button(@_)    });
+
+    $app->helper(MD_button  => sub { md_button(@_)  });
+    $app->helper(MD_headers => sub { md_headers(@_) });
 }
 
 =head2 md_button
@@ -57,14 +58,33 @@ Generates HTML code for Materialize button
 sub md_button
 {
     my %attr = @_ % 2 ? (value => shift, @_) : @_;
-   
-	my $color = ($attr{color} ? " $attr{color}" : ''); 
-	my $size = ($attr{size} ? " btn-$attr{size}" : '');
+
+    my $color = ($attr{color} ? " $attr{color}" : '');
+    my $size = ($attr{size} ? " btn-$attr{size}" : '');
     my $type = ($attr{type} ? 'btn-' . $attr{type} : 'btn');
-	my $icon = ($attr{icon} ? md_icon($attr{icon}, $attr{icon_pos}) : '');
+    my $icon = ($attr{icon} ? md_icon($attr{icon}, $attr{icon_pos}) : '');
     my $inner = $icon . $attr{label};
     my $str = '<a class="' . $type . $color . $size . '">' . $inner . '</a>';
-    
+
+    return (Mojo::ByteStream->new($str));
+}
+
+=head2 md_headers
+
+    %= MD_headers;
+
+Generates HTML headers for Materialize (css & js) & Google's Material Icons
+
+=cut
+
+sub md_headers
+{
+    my $str=<<END;
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.97.2/css/materialize.min.css">
+<link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.97.2/js/materialize.min.js"></script>
+END
+
     return (Mojo::ByteStream->new($str));
 }
 
@@ -75,10 +95,10 @@ sub md_button
 sub md_icon
 {
     my ($icon, $pos) = @_;
-    
+
 	$pos = (defined $pos ? " $pos" : '');
     my $str = '<i class="material-icons' . $pos . '">' . $icon . '</i>';
-    
+
     return (Mojo::ByteStream->new($str));
 }
 

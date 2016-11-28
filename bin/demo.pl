@@ -19,6 +19,8 @@ __DATA__
 
 <h1><%= title %></h1>
 
+More information on MaterializeCSS <a href="http://materializecss.com">here</a>.
+
 <h2>Buttons</h2>
 
 <h3>Button with label</h3>
@@ -54,10 +56,8 @@ __DATA__
 <html>
     <head>
     <title><%= title %></title>
-  	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.97.2/css/materialize.min.css">
-	<link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
-  	<script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.97.2/js/materialize.min.js"></script>
-    </head>
+%= MD_headers;
+		</head>
     <body>
     <%= content %>
     </body>
